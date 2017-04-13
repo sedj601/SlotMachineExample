@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="366.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tilepaneexample.FXMLDocumentController">
+<AnchorPane id="backgroundImage" prefHeight="366.0" prefWidth="565.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tilepaneexample.FXMLDocumentController">
     <children>
         <Button fx:id="button" layoutX="250.0" layoutY="319.0" onAction="#handleButtonAction" text="Click Me!" />
       <StackPane maxHeight="100.0" maxWidth="535.0" AnchorPane.bottomAnchor="251.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">

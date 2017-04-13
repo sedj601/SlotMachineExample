@@ -39,60 +39,52 @@ public class FXMLDocumentController implements Initializable {
 
     int numberOfLetterImages = 27;
     final double vboxHeight = numberOfLetterImages * 100;
+    
+    
 
     @FXML
     private void handleButtonAction(ActionEvent event)
     {
         ((Button) event.getSource()).setDisable(true);
-        System.out.println("Start: " + vbox1.getLayoutY() + " : " + vbox1b.getLayoutY());
-        //final long startNanoTime = System.nanoTime();
 
         AnimationTimer at = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime)
-            {
-                //double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                
-                vbox1.setLayoutY(vbox1.getLayoutY() - 15.7);
-                vbox1b.setLayoutY(vbox1b.getLayoutY() - 15.7);
-                vbox2.setLayoutY(vbox2.getLayoutY() - 16.13);
-                vbox2b.setLayoutY(vbox2b.getLayoutY() - 16.13);
-                vbox3.setLayoutY(vbox3.getLayoutY() - 24.56);
-                vbox3b.setLayoutY(vbox3b.getLayoutY() - 24.56);
+            {                
+                vbox1.setLayoutY(vbox1.getLayoutY() - 15);
+                vbox1b.setLayoutY(vbox1b.getLayoutY() - 15);
+                vbox2.setLayoutY(vbox2.getLayoutY() - 15);
+                vbox2b.setLayoutY(vbox2b.getLayoutY() - 15);
+                vbox3.setLayoutY(vbox3.getLayoutY() - 15);
+                vbox3b.setLayoutY(vbox3b.getLayoutY() - 15);
 
                 if (vbox1.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox1.getLayoutY();
-                    //System.out.println(vbox1.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox1.setLayoutY(vboxHeight + delta);
                 }
 
                 if (vbox1b.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox1b.getLayoutY();
-                    //System.out.println(vbox1b.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox1b.setLayoutY(vboxHeight + delta);
                 }
 
                 if (vbox2.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox2.getLayoutY();
-                    //System.out.println(vbox2.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox2.setLayoutY(vboxHeight + delta);
                 }
 
                 if (vbox2b.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox2b.getLayoutY();
-                    //System.out.println(vbox2b.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox2b.setLayoutY(vboxHeight + delta);
                 }
 
                 if (vbox3.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox3.getLayoutY();
-                    //System.out.println(vbox3.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox3.setLayoutY(vboxHeight + delta);
                 }
 
                 if (vbox3b.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox3b.getLayoutY();
-                    //System.out.println(vbox3b.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox3b.setLayoutY(vboxHeight + delta);
                 }
             }
@@ -102,22 +94,33 @@ public class FXMLDocumentController implements Initializable {
         PauseTransition delay = new PauseTransition(Duration.seconds(2));
         delay.setOnFinished(event1 -> {
             at.stop();
+            
+            String slotFace = "";
+            
             int rounded1 = vbox1.getLayoutY() > 0 ? (int)Math.floor(vbox1.getLayoutY()/100) * 100 : (int)Math.floor(vbox1.getLayoutY()/100) * 100;
             int rounded1b = vbox1b.getLayoutY() > 0 ? (int)Math.floor(vbox1b.getLayoutY()/100) * 100 : (int)Math.floor(vbox1b.getLayoutY()/100) * 100;
             vbox1.setLayoutY(rounded1);
             vbox1b.setLayoutY(rounded1b);
+            
+            slotFace += getFaceValueFromHeight(rounded1);
             
             int rounded2 = vbox2.getLayoutY() > 0 ? (int)Math.floor(vbox2.getLayoutY()/100) * 100 : (int)Math.floor(vbox2.getLayoutY()/100) * 100;
             int rounded2b = vbox2b.getLayoutY() > 0 ? (int)Math.floor(vbox2b.getLayoutY()/100) * 100 : (int)Math.floor(vbox2b.getLayoutY()/100) * 100;
             vbox2.setLayoutY(rounded2);
             vbox2b.setLayoutY(rounded2b);
             
+            slotFace += getFaceValueFromHeight(rounded2);
+            
             int rounded3 = vbox3.getLayoutY() > 0 ? (int)Math.floor(vbox3.getLayoutY()/100) * 100 : (int)Math.floor(vbox3.getLayoutY()/100) * 100;
             int rounded3b = vbox3b.getLayoutY() > 0 ? (int)Math.floor(vbox3b.getLayoutY()/100) * 100 : (int)Math.floor(vbox3b.getLayoutY()/100) * 100;
             vbox3.setLayoutY(rounded3);
             vbox3b.setLayoutY(rounded3b);
             
+            System.out.println("slot face int: " + rounded1 + ":" + rounded2 + ":" + rounded3);
+            slotFace += getFaceValueFromHeight(rounded3);
             
+            System.out.println(slotFace);
+            System.out.println("Winner: " + checkForWinner(slotFace));
             ((Button) event.getSource()).setDisable(false);
         });
         delay.play();
@@ -171,6 +174,50 @@ public class FXMLDocumentController implements Initializable {
         vbox1b.setLayoutY(vboxHeight);
         vbox2b.setLayoutY(vboxHeight);
         vbox3b.setLayoutY(vboxHeight);
+    }
+    
+    private String getFaceValueFromHeight(int height)
+    {
+        switch(height)
+        {
+            case 0:      case 2700:  return "*";
+            case -100:   case 2600:  return "A";
+            case -200:   case 2500:  return "B";
+            case -300:   case 2400:  return "C";
+            case -400:   case 2300:  return "D";
+            case -500:   case 2200:  return "E";
+            case -600:   case 2100:  return "F";
+            case -700:   case 2000:  return "G";
+            case -800:   case 1900:  return "H";
+            case -900:   case 1800:  return "I";
+            case -1000:  case 1700:  return "J";
+            case -1100:  case 1600:  return "K";
+            case -1200:  case 1500:  return "L";
+            case -1300:  case 1400:  return "M";
+            case -1400:  case 1300:  return "N";
+            case -1500:  case 1200:  return "O";
+            case -1600:  case 1100:  return "P";
+            case -1700:  case 1000:  return "Q";
+            case -1800:  case 900:   return "R";
+            case -1900:  case 800:   return "S";
+            case -2000:  case 700:   return "T";
+            case -2100:  case 600:   return "U";
+            case -2200:  case 500:   return "V";
+            case -2300:  case 400:   return "W";
+            case -2400:  case 300:   return "X";
+            case -2500:  case 200:   return "Y";
+            case -2600:  case 100:   return "Z";             
+        }
+        
+        return "error! in method getFaceValueFromHeight";
+    }
+    
+    private boolean checkForWinner(String string)
+    {
+        boolean control;        
+        control = string.codePointAt(0) == string.codePointAt(1) && string.codePointAt(1) == string.codePointAt(2);
+        
+        return control;
     }
 
 }
