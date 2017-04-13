@@ -35,35 +35,30 @@ public class FXMLDocumentController implements Initializable {
     List<ImageView> imageViewContainer2b = new ArrayList();
     List<ImageView> imageViewContainer3b = new ArrayList();
 
-    int currentFrame = 0;
-    long lastTimeFPS = 0;
-    double realOneCurrentHeight = 0;
-    double realTwoCurrentHeight = 0;
-    double realThreeCurrentHeight = 0;
-
     boolean currentRealTwo = true;
 
-    final double vboxHeight = 200;
+    int numberOfLetterImages = 27;
+    final double vboxHeight = numberOfLetterImages * 100;
 
     @FXML
     private void handleButtonAction(ActionEvent event)
     {
         ((Button) event.getSource()).setDisable(true);
-
-        final long startNanoTime = System.nanoTime();
+        System.out.println("Start: " + vbox1.getLayoutY() + " : " + vbox1b.getLayoutY());
+        //final long startNanoTime = System.nanoTime();
 
         AnimationTimer at = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime)
             {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-
-                vbox1.setLayoutY(vbox1.getLayoutY() - 5.7);
-                vbox1b.setLayoutY(vbox1b.getLayoutY() - 5.7);
-                vbox2.setLayoutY(vbox2.getLayoutY() - 6.13);
-                vbox2b.setLayoutY(vbox2b.getLayoutY() - 6.13);
-                vbox3.setLayoutY(vbox3.getLayoutY() - 4.56);
-                vbox3b.setLayoutY(vbox3b.getLayoutY() - 4.56);
+                //double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+                
+                vbox1.setLayoutY(vbox1.getLayoutY() - 15.7);
+                vbox1b.setLayoutY(vbox1b.getLayoutY() - 15.7);
+                vbox2.setLayoutY(vbox2.getLayoutY() - 16.13);
+                vbox2b.setLayoutY(vbox2b.getLayoutY() - 16.13);
+                vbox3.setLayoutY(vbox3.getLayoutY() - 24.56);
+                vbox3b.setLayoutY(vbox3b.getLayoutY() - 24.56);
 
                 if (vbox1.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox1.getLayoutY();
@@ -79,13 +74,13 @@ public class FXMLDocumentController implements Initializable {
 
                 if (vbox2.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox2.getLayoutY();
-                    System.out.println(vbox2.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
+                    //System.out.println(vbox2.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox2.setLayoutY(vboxHeight + delta);
                 }
 
                 if (vbox2b.getLayoutY() <= -vboxHeight) {
                     double delta = vboxHeight + vbox2b.getLayoutY();
-                    System.out.println(vbox2b.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
+                    //System.out.println(vbox2b.getLayoutY() + " : " + vboxHeight + " delta: " + delta);
                     vbox2b.setLayoutY(vboxHeight + delta);
                 }
 
@@ -104,9 +99,25 @@ public class FXMLDocumentController implements Initializable {
         };
         at.start();
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
         delay.setOnFinished(event1 -> {
             at.stop();
+            int rounded1 = vbox1.getLayoutY() > 0 ? (int)Math.floor(vbox1.getLayoutY()/100) * 100 : (int)Math.floor(vbox1.getLayoutY()/100) * 100;
+            int rounded1b = vbox1b.getLayoutY() > 0 ? (int)Math.floor(vbox1b.getLayoutY()/100) * 100 : (int)Math.floor(vbox1b.getLayoutY()/100) * 100;
+            vbox1.setLayoutY(rounded1);
+            vbox1b.setLayoutY(rounded1b);
+            
+            int rounded2 = vbox2.getLayoutY() > 0 ? (int)Math.floor(vbox2.getLayoutY()/100) * 100 : (int)Math.floor(vbox2.getLayoutY()/100) * 100;
+            int rounded2b = vbox2b.getLayoutY() > 0 ? (int)Math.floor(vbox2b.getLayoutY()/100) * 100 : (int)Math.floor(vbox2b.getLayoutY()/100) * 100;
+            vbox2.setLayoutY(rounded2);
+            vbox2b.setLayoutY(rounded2b);
+            
+            int rounded3 = vbox3.getLayoutY() > 0 ? (int)Math.floor(vbox3.getLayoutY()/100) * 100 : (int)Math.floor(vbox3.getLayoutY()/100) * 100;
+            int rounded3b = vbox3b.getLayoutY() > 0 ? (int)Math.floor(vbox3b.getLayoutY()/100) * 100 : (int)Math.floor(vbox3b.getLayoutY()/100) * 100;
+            vbox3.setLayoutY(rounded3);
+            vbox3b.setLayoutY(rounded3b);
+            
+            
             ((Button) event.getSource()).setDisable(false);
         });
         delay.play();
